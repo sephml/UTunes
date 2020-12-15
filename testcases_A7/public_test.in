@@ -1,0 +1,39 @@
+GET songs
+POST signup ? email test@gmail.com username test password test
+GET songs ? id 1
+GET songs ? id 123
+POST likes ? id 2
+POST likes ? id 1
+GET likes
+DELETE likes ? id 1
+GET likes
+POST playlists ? name my_public_playlist privacy public
+POST playlists ? name my_private_playlist privacy private
+GET playlists ? username test
+POST playlists_songs ? playlist_id 1 song_id 7
+POST playlists_songs ? playlist_id 1 song_id 2
+GET playlists_songs ? playlist_id 1
+DELETE playlists_songs ? playlist_id 1 song_id 7
+GET playlists_songs ? playlist_id 1
+GET songs ? id 2
+POST comments ? song_id 1 time 25 comment Great_lyrics
+POST comments ? song_id 1 time 10 comment Perfect_lyrics
+GET comments ? song_id 1
+POST logout
+POST signup ? email test2@gmail.com username test2 password test2
+GET users
+GET playlists ? username test
+GET playlists_songs ? playlist_id 1
+GET playlists_songs ? playlist_id 2
+POST playlists ? name my_playlist privacy public
+GET playlists ? username test2
+POST comments ? song_id 1 time 20 comment comment_from_test2
+GET comments ? song_id 1
+POST filters ? artist Homayoun Shajarian
+GET songs
+POST filters ? min_year 2015 max_year 2020
+GET songs
+POST filters ? min_like 10 max_like 15
+GET songs
+DELETE filters
+GET songs
