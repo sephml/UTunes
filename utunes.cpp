@@ -2,9 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+ 
 UTunes::UTunes(){}
-
+ 
 void UTunes::readCSV(const std::string fileAddress)
 {
     std::string line;
@@ -51,6 +51,7 @@ header UTunes::createLabelMap(std::string line)
     }
     return head;
 }
+
 void UTunes::addToSongs(std::string line, header head)
 {   std::string word;
     std::stringstream s(line);
@@ -149,6 +150,7 @@ void UTunes::likeCommand()
     songs[findSongById(id)]->incLike();
     std::cout<<"OK\n";
 }
+
 void UTunes::signupCommand()
 {
     std::vector<std::string> parsedCommand = parser();
@@ -160,6 +162,7 @@ void UTunes::signupCommand()
     users.push_back(CurrentUser);
     std::cout<<"OK\n";
 }
+
 bool UTunes::isUserUnique(const std::string& email,const std::string& username)
 {
     for(auto u:users)
@@ -171,6 +174,7 @@ bool UTunes::isUserUnique(const std::string& email,const std::string& username)
     }
     return true;
 }
+
 std::vector<std::string> UTunes::parser()
 {
     std::string word,line;
@@ -316,7 +320,7 @@ void UTunes::handleDelete()
         std::cerr << e.what();
     }
 }
-
+ 
 void UTunes::deleteLikedSong()
 {
     std::vector<std::string> parsedCommand = parser();
@@ -327,6 +331,15 @@ void UTunes::deleteLikedSong()
     songs[findSongById(id)]->decLike();
     std::cout<<"OK\n";
 }
+ 
+
+
+
+
+
+
+
+
 
 
 
