@@ -32,3 +32,40 @@ void User::disLike(int id)
     }
     likedSongs = tempLikes;
 }
+
+void User::addPlayelist(std::string _name, PRIVACY p, int id)
+{
+    playlists.push_back(new Playlist(_name, p, id));
+}
+
+void User::printPlaylists(bool isOwner)
+{
+    if (isOwner)
+    {
+        
+        if(playlists.size() == 0) throw EmptyListEx();
+        for(auto p:playlists)
+        {
+            p->printdetails();
+        }
+
+    }else
+    {   
+        int count = 0;
+        for(auto p:playlists)
+        {
+            if(p->getType()== PUBLIC)
+            {
+                p->printdetails();
+                count ++;
+            }
+        }
+        if(count == 0) throw EmptyListEx();
+    }
+}
+
+
+
+
+
+

@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include "playlist.h"
+#include "exceptions.h"
 
 class User
 {
@@ -15,13 +17,16 @@ class User
         void like(int);
         std::vector <int> getLiked(){ return likedSongs;}
         void disLike(int);
-
+        void addPlayelist(std::string, PRIVACY, int);
+        void printPlaylists(bool);
 
     private:
         std::string email;
         size_t password;
         std::string username;
         std::vector<int> likedSongs;
+        std::vector<Playlist*> playlists;
+
 
 };
 

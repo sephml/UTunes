@@ -3,17 +3,21 @@
 
 #include <string>
 #include <vector>
-#include "user.h"
+#include "song.h"
 
-
+enum PRIVACY{ PUBLIC , PRIVATE};
 class Playlist
 {
     public:
-        Playlist();
+        Playlist(std::string _name,PRIVACY p, int id);
+        void printdetails();
+        PRIVACY getType(){ return privacy;}
+
     private:
-        enum PRIVACY{ PUBLIC , PRIVATE};
-        std::string name;
-        User* owner;
+        int Pid;
+        std::string Pname;
+        std::string usrenameOfOwner;
+        std::vector<Song*> addedSongs;
         PRIVACY privacy;
 };
 

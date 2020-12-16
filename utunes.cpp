@@ -3,7 +3,11 @@
 #include <fstream>
 #include <sstream>
  
-UTunes::UTunes(){}
+UTunes::UTunes()
+{
+    CurrentUser = nullptr;
+    lastPlaylistId = 1;
+}
  
 void UTunes::readCSV(const std::string fileAddress)
 {
@@ -121,17 +125,36 @@ void UTunes::handlePost()
         }else if(action == "likes")
         {
             likeCommand();
-        }else if(action == "playlists_songs")
+        }else if(action == "playlists")
         {
             createPlaylistCommand();
         }else
         {
+            std::getline(std::cin,action);
             throw BadRequestEx();
         }
     }catch(std::exception& e)
     {
         std::cerr << e.what();
     }
+}
+
+void UTunes::createPlaylistCommand()
+{
+    if (CurrentUser == nullptr)
+    {
+        std::string command;
+        std::getline(std::cin,command);
+        throw PermissionDeniedEx();
+    }
+    std::vector<std::string> parsedCommand = parser();
+    if(parsedCommand.size() != PLAYLIST_CREATE_COMMAND) throw BadRequestEx();
+    PRIVACY p = parsedCommand[4] == "public"? PUBLIC:PRIVATE;
+    CurrentUser->addPlayelist(parsedCommand[2], p, lastPlaylistId);
+    std::cout<<lastPlaylistId<<std::endl;
+    lastPlaylistId++;
+
+    
 }
 
 void UTunes::likeCommand()
@@ -229,7 +252,7 @@ void UTunes::handleGet()
         std::string action = parsedCommand[0];
         if(action == "users")
         {
-            // getUsers();
+
         }else if(action == "songs")
         {   
             parsedCommand.erase(parsedCommand.begin());
@@ -238,9 +261,14 @@ void UTunes::handleGet()
         {   
             parsedCommand.erase(parsedCommand.begin());
             printLikedSongs();
+        }else if(action == "playlists")
+        {   
+            parsedCommand.erase(parsedCommand.begin());
+            printaUsersPlaylists(parsedCommand);
         }
         else
         {
+            std::getline(std::cin,action);
             throw BadRequestEx();
         }
     }catch(std::exception& e)
@@ -248,6 +276,34 @@ void UTunes::handleGet()
         std::cerr << e.what();
     }
 }
+
+void UTunes::printaUsersPlaylists(std::vector<std::string > parsedcommand)
+{
+    if (CurrentUser == nullptr) throw PermissionDeniedEx();
+    if (parsedcommand.size() != PLAYLIST_PRINT_COMMAND) throw BadRequestEx();
+    
+    int index = findUserByUsername(parsedcommand[2]);
+    if(index == -1) NotFoundEx();
+    if(CurrentUser->getUsername() == users[index]->getUsername())
+    {
+        users[index]->printPlaylists(true);
+    }else
+    {
+        users[index]->printPlaylists(false);
+    }
+    
+
+}
+
+int UTunes::findUserByUsername(std::string Uname)
+{
+    for(int i = 0; i<users.size(); i++)
+    {
+        if(users[i]->getUsername() == Uname) return i;
+    }
+    return -1;
+}
+
 
 void UTunes::printLikedSongs()
 {
