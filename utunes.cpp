@@ -121,8 +121,10 @@ void UTunes::handlePost()
         }else if(action == "likes")
         {
             likeCommand();
-        }
-        else
+        }else if(action == "playlists_songs")
+        {
+            createPlaylistCommand();
+        }else
         {
             throw BadRequestEx();
         }

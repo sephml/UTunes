@@ -33,6 +33,7 @@ class UTunes
         void deleteLikedSong();
         void printSongs(std::vector<std::string >);
         void printLikedSongs();
+        void createPlaylistCommand();
         std::vector<std::string> parser();
         bool isUserUnique(const std::string&, const std::string&);
         int findSongById(int);
