@@ -128,6 +128,9 @@ void UTunes::handlePost()
         }else if(action == "playlists")
         {
             createPlaylistCommand();
+        }else if(action == "playlists_songs")
+        {
+            addSongToPlaylistCommand();
         }else
         {
             std::getline(std::cin,action);
@@ -138,6 +141,42 @@ void UTunes::handlePost()
         std::cerr << e.what();
     }
 }
+
+void UTunes::addSongToPlaylistCommand()
+{
+    if(CurrentUser == nullptr )
+    {
+        std::string command;
+        std::getline(std::cin,command);
+        throw PermissionDeniedEx();
+    }
+    std::vector<std::string> parsedCommand = parser();
+    if(parsedCommand.size() != PLAYLIST_ADD_SONG_COMMAND) throw BadRequestEx();
+    
+    Playlist* p = findPlaylistFromUsers(stoi(parsedCommand[2]));
+    if(p == nullptr) throw NotFoundEx();
+    int index = findSongById(stoi(parsedCommand[4]));
+    if(index == -1) throw NotFoundEx();
+    p->addSong(CurrentUser->getUsername(), songs[index]);
+
+    std::cout<<"OK\n";
+}
+
+
+
+Playlist* UTunes::findPlaylistFromUsers(int _id)
+{
+    for(auto u:users)
+    {
+        Playlist* p = u->findPlaylistById(_id);
+        if (p != nullptr)
+        {
+            return p;
+        }
+    }
+    return nullptr;
+}
+
 
 void UTunes::createPlaylistCommand()
 {
@@ -265,6 +304,10 @@ void UTunes::handleGet()
         {   
             parsedCommand.erase(parsedCommand.begin());
             printaUsersPlaylists(parsedCommand);
+        }else if(action == "playlists_songs")
+        {   
+            parsedCommand.erase(parsedCommand.begin());
+            printaPlaylistsSongs(parsedCommand);
         }
         else
         {
@@ -275,6 +318,14 @@ void UTunes::handleGet()
     {
         std::cerr << e.what();
     }
+}
+
+void UTunes::printaPlaylistsSongs(std::vector<std::string > parsedcommand)
+{
+    if (CurrentUser == nullptr) throw PermissionDeniedEx();
+    if (parsedcommand.size() != PLAYLIST_PRINT_COMMAND) throw BadRequestEx();
+
+    findPlaylistFromUsers(stoi(parsedcommand[2]))->printSongs(CurrentUser->getUsername());
 }
 
 void UTunes::printaUsersPlaylists(std::vector<std::string > parsedcommand)
@@ -389,15 +440,4 @@ void UTunes::deleteLikedSong()
     songs[findSongById(id)]->decLike();
     std::cout<<"OK\n";
 }
- 
-
-
-
-
-
-
-
-
-
-
 

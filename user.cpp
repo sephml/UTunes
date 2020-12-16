@@ -35,7 +35,7 @@ void User::disLike(int id)
 
 void User::addPlayelist(std::string _name, PRIVACY p, int id)
 {
-    playlists.push_back(new Playlist(_name, p, id));
+    playlists.push_back(new Playlist(_name, p, username, id));
 }
 
 void User::printPlaylists(bool isOwner)
@@ -64,6 +64,17 @@ void User::printPlaylists(bool isOwner)
     }
 }
 
+Playlist* User::findPlaylistById(int Pid)
+{
+    for(auto p: playlists)
+    {
+        if (p->getId() == Pid)
+        {
+            return p;
+        }
+    }
+    return nullptr;
+}
 
 
 

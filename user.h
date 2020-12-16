@@ -19,7 +19,8 @@ class User
         void disLike(int);
         void addPlayelist(std::string, PRIVACY, int);
         void printPlaylists(bool);
-
+        Playlist* findPlaylistById(int);
+        
     private:
         std::string email;
         size_t password;
@@ -27,9 +28,6 @@ class User
         std::vector<int> likedSongs;
         std::vector<Playlist*> playlists;
 
-
 };
-
-
 
 #endif

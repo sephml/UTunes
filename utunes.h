@@ -4,7 +4,7 @@
 #include "exceptions.h"
 #include "song.h"
 #include "user.h"
-// #include "playlist.h"
+#include "playlist.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -14,7 +14,7 @@ const int SIGNUP_COMMAND_ATTRIB_LENGTH = 7;
 const int LOGIN_COMMAND_ATTRIB_LENGTH = 5;
 const int PLAYLIST_CREATE_COMMAND = 5;
 const int PLAYLIST_PRINT_COMMAND = 3;
-
+const int PLAYLIST_ADD_SONG_COMMAND = 5;
 
 class UTunes
 {
@@ -40,12 +40,15 @@ class UTunes
         void deleteLikedSong();
         void printSongs(std::vector<std::string >);
         void printaUsersPlaylists(std::vector<std::string >);
+        void printaPlaylistsSongs(std::vector<std::string >);
         void printLikedSongs();
         void createPlaylistCommand();
+        void addSongToPlaylistCommand();
         std::vector<std::string> parser();
         bool isUserUnique(const std::string&, const std::string&);
         int findSongById(int);
         int findUserByUsername(std::string);
+        Playlist* findPlaylistFromUsers(int);
 
     public:
         UTunes();

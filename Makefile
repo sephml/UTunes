@@ -26,7 +26,7 @@ ${BUILD_DIR}/song.o: song.cpp
 ${BUILD_DIR}/user.o: user.cpp playlist.h exceptions.h
 	${CC} -c user.cpp -o ${BUILD_DIR}/user.o
 
-${BUILD_DIR}/playlist.o: playlist.cpp song.h
+${BUILD_DIR}/playlist.o: playlist.cpp song.h exceptions.h
 	${CC} -c playlist.cpp -o ${BUILD_DIR}/playlist.o
 
 clean:
