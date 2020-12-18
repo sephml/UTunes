@@ -324,7 +324,7 @@ void UTunes::printaPlaylistsSongs(std::vector<std::string > parsedcommand)
 {
     if (CurrentUser == nullptr) throw PermissionDeniedEx();
     if (parsedcommand.size() != PLAYLIST_PRINT_COMMAND) throw BadRequestEx();
-
+    if(findPlaylistFromUsers(stoi(parsedcommand[2])) == nullptr) throw NotFoundEx();
     findPlaylistFromUsers(stoi(parsedcommand[2]))->printSongs(CurrentUser->getUsername());
 }
 

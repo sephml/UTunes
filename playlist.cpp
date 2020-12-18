@@ -36,7 +36,7 @@ void Playlist::addSong(std::string Uname, Song* s)
 
 void Playlist::printSongs(std::string Uname)
 {   
-    if (Uname == usrenameOfOwner && privacy == PRIVATE) throw PermissionDeniedEx();
+    if (Uname != usrenameOfOwner && privacy == PRIVATE) throw PermissionDeniedEx();
     
     if(addedSongs.size() == 0) throw EmptyListEx();
     for(auto s:addedSongs)
