@@ -44,3 +44,17 @@ void Playlist::printSongs(std::string Uname)
         s->print();
     }
 }
+
+void Playlist::deleteSong(std::string Uname,int Sid)
+{
+    if( Uname != usrenameOfOwner) throw PermissionDeniedEx();
+    for(int i = 0; i < addedSongs.size();i++)
+    {
+        if (addedSongs[i]->getID() == Sid)
+        {
+            addedSongs.erase(addedSongs.begin()+i);
+            return;
+        }  
+    }
+    throw BadRequestEx();
+}

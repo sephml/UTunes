@@ -16,6 +16,7 @@ class Playlist
         PRIVACY getType(){ return privacy;}
         int getId(){return Pid;}
         void addSong(std::string, Song*);
+        void deleteSong(std::string, int);
         void printSongs(std::string);
     private:
         int Pid;

@@ -291,7 +291,7 @@ void UTunes::handleGet()
         std::string action = parsedCommand[0];
         if(action == "users")
         {
-
+            printUsers();
         }else if(action == "songs")
         {   
             parsedCommand.erase(parsedCommand.begin());
@@ -317,6 +317,19 @@ void UTunes::handleGet()
     }catch(std::exception& e)
     {
         std::cerr << e.what();
+    }
+}
+
+void UTunes::printUsers()
+{  
+    if (CurrentUser == nullptr) throw PermissionDeniedEx();
+    if (users.size() == 1) throw EmptyListEx();
+    for(auto u : users)
+    {
+        if(u->getUsername() != CurrentUser->getUsername())
+        {
+            std::cout<<u->getUsername()<<std::endl;
+        }
     }
 }
 
@@ -416,9 +429,9 @@ void UTunes::handleDelete()
         if(action == "likes")
         {
             deleteLikedSong();
-        }else if(action == "logout")
+        }else if(action == "playlists_songs")
         {
-            
+            deleteaSongFromAPlaylist();
         }
         else
         {
@@ -441,3 +454,13 @@ void UTunes::deleteLikedSong()
     std::cout<<"OK\n";
 }
 
+void UTunes::deleteaSongFromAPlaylist()
+{
+    std::vector<std::string> parsedCommand = parser();
+    if(CurrentUser == nullptr) throw PermissionDeniedEx();
+    if(parsedCommand.size() != DELETE_SONG_FROM_PLAYLIST) throw BadRequestEx();
+
+    Playlist* p = findPlaylistFromUsers(stoi(parsedCommand[2]));
+    p->deleteSong(CurrentUser->getUsername(), stoi(parsedCommand[4]));
+    std::cout<<"OK\n";
+}
