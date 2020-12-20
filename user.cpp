@@ -15,6 +15,12 @@ bool User::hasLiked(int id)
     return false;
 }
 
+User::~User()
+{
+    for(auto playlist: playlists ) delete playlist;
+    playlists.clear();
+}
+
 void User::like(int Sid)
 {
     likedSongs.push_back(Sid);

@@ -8,7 +8,18 @@ UTunes::UTunes()
     CurrentUser = nullptr;
     lastPlaylistId = 1;
 }
- 
+
+UTunes::~UTunes()
+{
+    for (auto song : songs) delete song;
+    songs.clear();
+    for (auto user : users) delete user;
+    users.clear();
+    
+    // for (auto filter : filters) delete filter.second;
+    // filters.clear();
+}
+
 void UTunes::readCSV(const std::string fileAddress)
 {
     std::string line;

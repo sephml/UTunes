@@ -10,6 +10,7 @@ class User
 {
     public:
         User(std::string, std::string, size_t pass);
+        ~User();
         std::string getUsername(){ return username;}
         size_t getPass(){ return password;}
         std::string getEmail(){ return email;}

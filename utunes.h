@@ -55,6 +55,7 @@ class UTunes
 
     public:
         UTunes();
+        ~UTunes();
         void readCSV(const std::string fileAddress);
         void readCommands();
 
