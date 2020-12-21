@@ -334,15 +334,31 @@ void UTunes::handleGet()
 void UTunes::printUsers()
 {  
     if (CurrentUser == nullptr) throw PermissionDeniedEx();
-    if (users.size() == 1) throw EmptyListEx();
+    std::vector<User*> usersToShow;
     for(auto u : users)
     {
         if(u->getUsername() != CurrentUser->getUsername())
         {
-            std::cout<<u->getUsername()<<std::endl;
+            usersToShow.push_back(u);
         }
     }
+    if (usersToShow.size() == 0) throw EmptyListEx();
+    for (auto user : sortUsersByName(usersToShow))
+        std::cout << user->getUsername() << std::endl;
+
 }
+
+bool compareUsersByName(User* first, User* second) {
+    return first->getUsername() < second->getUsername();
+}
+
+
+std::vector<User*> UTunes::sortUsersByName(std::vector<User*> _users) {
+    sort(_users.begin(), _users.end(), compareUsersByName);
+    return _users;
+}
+
+
 
 void UTunes::printaPlaylistsSongs(std::vector<std::string > parsedcommand)
 {
@@ -400,7 +416,8 @@ void UTunes::printSongs(std::vector<std::string > attribs)
     if(songs.size() == 0) throw EmptyListEx();
     if(attribs.size() == 0)
     {
-        for(auto s:songs)
+        std::vector<Song*> sortedS = sortSongs(songs);
+        for(auto s:sortedS)
         {
             s->print();
         }
@@ -416,6 +433,15 @@ void UTunes::printSongs(std::vector<std::string > attribs)
         std::cout<<"#comments: "<< songs[id]->getComments()<<std::endl;
         std::cout<<"#playlists: "<< songs[id]->getPlaylists()<<std::endl;
     }
+}
+
+bool compareSongsById(Song* first, Song* second) {
+    return first->getID() < second->getID();
+}
+
+std::vector<Song*> UTunes::sortSongs(std::vector<Song*> _songs) {
+    sort(_songs.begin(), _songs.end(), compareSongsById);
+    return _songs;
 }
 
 

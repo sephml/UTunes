@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 typedef std::map<std::string,int> header;
 const int SIGNUP_COMMAND_ATTRIB_LENGTH = 7;
@@ -52,7 +53,9 @@ class UTunes
         int findSongById(int);
         int findUserByUsername(std::string);
         Playlist* findPlaylistFromUsers(int);
-
+        std::vector<User*> sortUsersByName(std::vector<User*> );
+        std::vector<Song*> sortSongs(std::vector<Song*> );
+        // bool compareUsersByName(User*, User* );
     public:
         UTunes();
         ~UTunes();
