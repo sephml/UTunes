@@ -32,6 +32,16 @@ ${BUILD_DIR}/playlist.o: ./src/playlist/playlist.cpp ./src/song/song.h ./src/exc
 ${BUILD_DIR}/filter.o: ./src/filter/filter.cpp ./src/song/song.h ./src/exceptions/exceptions.h
 	${CC} -c ./src/filter/filter.cpp -o ${BUILD_DIR}/filter.o
 
+# Determine the operating system
+ifeq ($(OS),Windows_NT)
+    RM = if exist "$(BUILD_DIR)" rmdir /S /Q "$(BUILD_DIR)"
+    MKDIR = if not exist "$(BUILD_DIR)" mkdir "$(BUILD_DIR)"
+else
+    RM = rm -rf $(BUILD_DIR)
+    MKDIR = mkdir -p $(BUILD_DIR)
+endif
 
 clean:
-	rm -rf build/ && mkdir -p build
+	@$(RM)
+	@$(MKDIR)
+	
