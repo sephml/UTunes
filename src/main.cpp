@@ -9,7 +9,7 @@ int main(int argc, char const *argv[])
 
     try
     {
-        if (argc <1) throw NoFileAddressEx();
+        if (argc < 2) throw NoFileAddressEx();
 
         UTunes ut;
         ut.readCSV(argv[1]);
